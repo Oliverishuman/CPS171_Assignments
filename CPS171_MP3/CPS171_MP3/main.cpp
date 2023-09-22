@@ -7,8 +7,11 @@
 
 #include <iostream>
 
+using namespace std;
+
 int main(int argc, const char * argv[]) {
     // insert code here...
-    std::cout << "Testing!\\\\n";
+    cout << "Testing!\\\\n";
+    cout << "This is another line \n";
     return 0;
 }
