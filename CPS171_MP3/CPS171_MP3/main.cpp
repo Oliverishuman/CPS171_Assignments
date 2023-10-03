@@ -34,6 +34,7 @@ int main(int argc, const char * argv[]) {
             getline(inFile, str);
             cout << str << endl;
             
+            
             cout << testVar << endl;
         }
         inFile.close();
