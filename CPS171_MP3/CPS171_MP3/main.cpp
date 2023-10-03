@@ -31,7 +31,6 @@ int main(int argc, const char * argv[]) {
             getline(inFile, str);
             cout << str;
             
-        
             
             cout << endl;
         }
