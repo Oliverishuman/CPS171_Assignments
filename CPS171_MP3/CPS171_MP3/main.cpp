@@ -17,7 +17,8 @@ string str;
 
 //TODO
 //Use array to ready in data and interpret, then use if else/switch statement on that array segment, then erase array each record
-int cellData[3];
+string cellData[3];
+string testVar;
 
 int main(int argc, const char * argv[]) {
     
@@ -28,10 +29,13 @@ int main(int argc, const char * argv[]) {
     else{
         // While no end of file error exists, read in data
         while(!inFile.eof()){
+            testVar = inFile.peek();
+
             getline(inFile, str);
-            cout << str;
+            cout << str << endl;
             
-            cout << endl;
+            
+            cout << testVar << endl;
         }
         inFile.close();
     }
