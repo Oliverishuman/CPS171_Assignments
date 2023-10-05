@@ -27,15 +27,16 @@ int main(int argc, const char * argv[]) {
     if (inFile.fail())
         cout << endl << "File not found!" << endl;
     else{
+
+        cout << "Cellphone charges - MP3 by Oliver McMillen" << endl << endl;
+        cout << setw(8) << left << "Time" << setw(10) << "Duration" << setw(15) << "Type of call" << setw(25)
+        << "Minutes used so far" << setw(10) << "Cost" << endl;
+        
         // While no end of file error exists, read in data
         while(!inFile.eof()){
-            testVar = inFile.peek();
-
             getline(inFile, str);
-            cout << str << endl;
+            cout << left << setw(33) << str << setw(25)<< "123" << "$1.30" << endl;
             
-            
-            cout << testVar << endl;
         }
         inFile.close();
     }
