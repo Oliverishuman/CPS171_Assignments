@@ -47,7 +47,7 @@ int main(int argc, const char * argv[]) {
         
         cout << "Cellphone charges - MP3 by Oliver McMillen" << endl << endl;
         cout << setw(8) << left << "Time" << setw(10) << "Duration" << setw(15) << "Type of call" << setw(23)
-        << "Minutes used so far" << "costOfCall" << endl;
+        << "Minutes used so far" << "Cost" << endl;
         
         //While file instream is not empty, do this
         while(inFile >> timeCallMade >> durationOfCall >> typeOfCall){
