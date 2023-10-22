@@ -22,25 +22,25 @@ int main(int argc, const char * argv[]) {
         
         //If iterated number is even
         if (i % 2 == 0){
-            numberToInspect = i;
             int sumOfDivisors = 0;
             int countOfDivisors = 0;
-            
+            numberToInspect = i;
             string stringOfProperDivisors = "";
             
-            //As long as j is less than the number to inspect, continue
+            //For while j is less than the number to inspect
             for (int j=1; j < numberToInspect; j++){
-                
-                //If number to inspect divided by j has remainder of 0, print the out to the line.
+                /*
+                 If the number to inspect divided by j has remainder of 0,
+                 then j is a proper divisor. Add to string of proper divisors,
+                 accumulate sum of proper divisors, and accumulate count.
+                */
                 if (numberToInspect % j == 0){
                     properDivisor = j;
                     
                     stringOfProperDivisors += to_string(properDivisor) + ", ";
-                    
                     sumOfDivisors += properDivisor;
                     countOfDivisors++;
                 }
-                
             }
             
             
@@ -49,16 +49,16 @@ int main(int argc, const char * argv[]) {
                 cout << numberToInspect <<" is the first natural number with 6 proper divisors." << endl;
                 cout << "The proper divisors of "<< numberToInspect << " are " << stringOfProperDivisors << endl;
                 cout << "The sum of the proper divisors is " << sumOfDivisors
-                << " which is less than the number " << numberToInspect << endl;
+                << " which is less than the number " << numberToInspect << "." << endl;
                 cout << "There are " << countOfDivisors << " proper divisors for the number " << numberToInspect << endl;
                 cout << endl;
                 break;
-                
-            } else if (sumOfDivisors > numberToInspect){
+            } 
+            else if (sumOfDivisors > numberToInspect){
                 cout <<"The number " << numberToInspect << " is an ABUNDANT number." << endl;
                 cout << "The proper divisors of "<< numberToInspect << " are " << stringOfProperDivisors << endl;
                 cout << "The sum of the proper divisors is " << sumOfDivisors
-                << " which is greater than the number " << numberToInspect << endl;
+                << " which is greater than the number " << numberToInspect << "." << endl;
                 cout << "There are " << countOfDivisors << " proper divisors for the number " << numberToInspect << endl;
                 cout << endl;
             }
