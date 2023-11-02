@@ -11,6 +11,7 @@
 
 using namespace std;
 
+
 int readAccountNumber(){
     int accNumberEntered = 0;
     bool numberNotAssigned = true;
@@ -40,6 +41,8 @@ int readAccountNumber(){
     return accNumberEntered;
 }
 
+
+
 double readBalanceAmount(){
     double accBalanceEntered = 0;
     bool balanceNotAssigned = true;
@@ -60,6 +63,8 @@ double readBalanceAmount(){
     }
     return accBalanceEntered;
 }
+
+
 
 double addReturnBonus(double openingBalance){
     double finalOpeningBalance = 0;
@@ -87,19 +92,38 @@ double addReturnBonus(double openingBalance){
 
 
 
+void printAllInfo(int numOfCustomers, int accountNumbers[], double accountBalances[]){
+    
+    cout << endl << "===========================Balance Accounts===========================" << endl;
+    cout << "=====================================================================" << endl;
+    
+    for (int i=0; i <= numOfCustomers-1; i++){
+        cout << "\tBalance amount for account number " << accountNumbers[i] << " is \t$" <<fixed << setprecision(2) << accountBalances[i] << endl;
+    }
+    cout << "=====================================================================" << endl;
+}
+
+
+
+//MAIN
 int main(int argc, const char * argv[]) {
+    const int numOfCustomers = 4;
     bool showMainMenu = true;
-    int numOfCustomers = 4;
+    bool accNumberMatched = false;
     char mainMenuSelection;
-    //    int accountNumber;
     double initialOpeningBalance;
     double finalOpeningBalance;
-    int arrayAccountNumbers [4];
-    double arrayAccountBalances [4];
+    int arrayAccountNumbers [numOfCustomers];
+    double arrayAccountBalances [numOfCustomers];
+    int inputAccountNumber;
     
+    cout << "*********************************************************************" << endl;
+    cout << "*********************************************************************" << endl;
     cout << "Oliver McMIllen, CPS 171 - SEC D01.\t Due Date: November 3rd, 2023" << endl;
+    cout << "*********************************************************************" << endl;
+    cout << "*********************************************************************" << endl;
     
-    for (int i=0; i <= numOfCustomers - 1; i++){
+    for (int i=0; i <= numOfCustomers-1 ; i++){
         cout << endl << "For customer " << i + 1 << endl;
         initialOpeningBalance = readBalanceAmount();
         arrayAccountNumbers[i] = readAccountNumber();
@@ -108,12 +132,12 @@ int main(int argc, const char * argv[]) {
         finalOpeningBalance = addReturnBonus(initialOpeningBalance);
         arrayAccountBalances[i] = finalOpeningBalance;
         
-        cout << "This is your Account Number " << arrayAccountNumbers[i] << endl;
-        cout << "This is your opening Balance " << arrayAccountBalances[i] << endl;
+        //        cout << "This is your Account Number " << fixed << setprecision(2) << arrayAccountNumbers[i] << endl;
+        //        cout << "This is your opening Balance " << fixed << setprecision(2) << arrayAccountBalances[i] << endl;
         
     }
     
-    
+    cout << endl << "**ALL CUSTOMERS ENTERED**" << endl;
     
     while(showMainMenu == true){
         
@@ -126,10 +150,25 @@ int main(int argc, const char * argv[]) {
         //to upper function reduces user error
         switch (toupper(mainMenuSelection)) {
             case 'A':
-                cout << "Deposit not set up" << endl;
+                while(accNumberMatched == false){
+                    cout << "Enter account number to deposit to: ";
+                    cin >> inputAccountNumber;
+                    
+                    
+                    for (int j=0; j <= numOfCustomers-1; j++){
+                        if (inputAccountNumber == arrayAccountNumbers[j]) {
+                            cout << "It's a match: " << arrayAccountNumbers[j] << endl;
+                            accNumberMatched = true;
+                            break;
+                        }
+                    }
+                    if (accNumberMatched == false){
+                        cout << "Try again" << endl;
+                    }
+                }
                 break;
             case 'B':
-                cout << "printAllInfo() function not set up" << endl;
+                printAllInfo(numOfCustomers, arrayAccountNumbers,arrayAccountBalances);
                 break;
             case 'C':
                 cout << "Goodbye!" << endl;
