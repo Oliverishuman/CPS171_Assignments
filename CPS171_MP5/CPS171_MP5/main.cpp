@@ -103,7 +103,14 @@ void printAllInfo(int numOfCustomers, int accountNumbers[], double accountBalanc
     cout << "=====================================================================" << endl;
 }
 
-
+double calculateDeposit(double balanceToPass){
+    double amountToDeposit=0;
+    
+    cout << "What amount would you like to deposit: ";
+    cin >> amountToDeposit;
+    
+    return (balanceToPass + amountToDeposit);
+}
 
 //MAIN
 int main(int argc, const char * argv[]) {
@@ -149,28 +156,36 @@ int main(int argc, const char * argv[]) {
         
         //to upper function reduces user error
         switch (toupper(mainMenuSelection)) {
-            case 'A':
+                
+            case 'A': //Deposit
                 while(accNumberMatched == false){
-                    cout << "Enter account number to deposit to: ";
+                    double currentBalance=0;
+                    cout << endl << "Enter the account number for deposit: ";
                     cin >> inputAccountNumber;
                     
-                    
+                    //Iterate through number of customers and compare spot in array to input entry
                     for (int j=0; j <= numOfCustomers-1; j++){
                         if (inputAccountNumber == arrayAccountNumbers[j]) {
-                            cout << "It's a match: " << arrayAccountNumbers[j] << endl;
+                            currentBalance = arrayAccountBalances[j];
+                            cout << "Your current balance is: " << currentBalance << endl;
+                            arrayAccountBalances[j] = calculateDeposit(currentBalance);
+                            
+                            cout << "Your balance is now $" << arrayAccountBalances[j] << endl;
+                            //Prevent loop from continuing
                             accNumberMatched = true;
                             break;
                         }
                     }
                     if (accNumberMatched == false){
-                        cout << "Try again" << endl;
+                        cout << "No account matched! Try again." << endl;
                     }
                 }
+                accNumberMatched = false;
                 break;
-            case 'B':
+            case 'B': //View All Balances
                 printAllInfo(numOfCustomers, arrayAccountNumbers,arrayAccountBalances);
                 break;
-            case 'C':
+            case 'C': //Exit
                 cout << "Goodbye!" << endl;
                 showMainMenu = false; break;
             default:
