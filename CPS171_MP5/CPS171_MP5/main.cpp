@@ -15,7 +15,7 @@ using namespace std;
 int readAccountNumber(){
     int accNumberEntered = 0;
     bool numberNotAssigned = true;
-    string errorMsg = "You must enter a number between 1 - 10,000. Please try again.";
+    string errorMsg = "You must enter an even number between 1 - 10,000. Please try again.";
     
     while(numberNotAssigned == true){
         cout << "Enter account number: ";
@@ -46,7 +46,7 @@ int readAccountNumber(){
 double readBalanceAmount(){
     double accBalanceEntered = 0;
     bool balanceNotAssigned = true;
-    string errorMsg = "You must enter an even number between 1 - 200,000. Please try again.";
+    string errorMsg = "You must enter an number between 1 - 200,000. Please try again.";
     
     while(balanceNotAssigned == true){
         cout << "Enter opening balance: ";
