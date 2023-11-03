@@ -1,9 +1,16 @@
-//
-//  main.cpp
-//  CPS171_MP5
-//
-//  Created by Oliver McMillen on 10/31/23.
-//
+/*
+ main.cpp
+ CPS171_MP5
+ 
+ This program is designed to start by receiving input for 4 customers.
+ Then, it will allow for menu options for which the user can either view all
+ account balances, deposit money into an account, or exit the program.
+ Opening balance input must be between 1 and 200,000.
+ Account number input must be an even number between 1 an 10,000.
+ 
+ Created by Oliver McMillen on 10/31/23.
+ 
+ */
 
 #include <iostream>
 #include <string>
@@ -25,7 +32,6 @@ int readAccountNumber(){
         if (accNumberEntered >= 1 && accNumberEntered <= 10000){
             // if number is even (remainder of number divided by 2 is 0)
             if( accNumberEntered % 2 == 0 ){
-                //                cout << "This is your account number " << accNumberEntered << endl;
                 numberNotAssigned = false;
             }
             // if number entered is not even, prompt user to try again
@@ -139,9 +145,6 @@ int main(int argc, const char * argv[]) {
         finalOpeningBalance = addReturnBonus(initialOpeningBalance);
         arrayAccountBalances[i] = finalOpeningBalance;
         
-        //        cout << "This is your Account Number " << fixed << setprecision(2) << arrayAccountNumbers[i] << endl;
-        //        cout << "This is your opening Balance " << fixed << setprecision(2) << arrayAccountBalances[i] << endl;
-        
     }
     
     cout << endl << "**ALL CUSTOMERS ENTERED**" << endl;
@@ -189,7 +192,6 @@ int main(int argc, const char * argv[]) {
                 cout << "Goodbye!" << endl;
                 showMainMenu = false; break;
             default:
-                //Do not set showMainMenu to false or the loop will not repeat back to the output of 'Main Menu...'
                 cout << "Error! Please try again." << endl;
         }
     }
