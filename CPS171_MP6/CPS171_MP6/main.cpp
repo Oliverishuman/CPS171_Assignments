@@ -131,6 +131,7 @@ int main(int argc, const char * argv[]) {
         cout << endl;
 
         //For each word in the list of words, search the word and print the result
+        
         for (string word : wordsToSearch){
             int startRow;
             int startCol;
