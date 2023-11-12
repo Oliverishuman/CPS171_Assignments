@@ -37,10 +37,58 @@ void printWordsToSearch(string wordsToSearch[wordsToSearchSize]){
     }
 }
 
-bool searchTableForWord(char tableToSearch[tableSize][tableSize], string word){
+//Reference parameteres send data back to the initial variable calling the function, in order to print the data in the format
+bool searchTableForWord(char tableToSearch[tableSize][tableSize], string word, string& direction, int& startRow, int& startCol){
+
     int wordLength = size(word);
+    transform(word.begin(), word.end(), word.begin(), ::toupper);
+
+    //Horizontal search
+    for (int i = 0; i < tableSize; i++) {
+        for (int j = 0; j <= tableSize - wordLength; j++) {
+            string substring(&tableToSearch[i][j], wordLength);
+//            cout << substring << " (at position " << i << "," << j << ")" << endl;
+            if (word == substring) {
+                startRow = i;
+                startCol = j;
+                direction = "Horizontal";
+                return true;
+            }
+        }
+    }
     
-    cout << wordLength << endl;
+    //Vertical search
+    for (int i = 0; i <= tableSize - wordLength; i++) {
+        for (int j = 0; j < tableSize; j++) {
+            string substring;
+            for (int k = 0; k < wordLength; k++) {
+                substring += tableToSearch[i + k][j];
+            }
+            if (word == substring) {
+                startRow = i;
+                startCol = j;
+                direction = "Vertical";
+                return true;
+            }
+        }
+    }
+    
+    //Diagonal search
+    for (int i = 0; i <= tableSize - wordLength; i++) {
+        for (int j = 0; j <= tableSize - wordLength; j++) {
+            string substring;
+            for (int k = 0; k < wordLength; k++) {
+                substring += tableToSearch[i + k][j + k];
+            }
+            
+            if (word == substring) {
+                startRow = i;
+                startCol = j;
+                direction = "Diagonal";
+                return true;
+            }
+        }
+    }
     
     return false;
 }
@@ -61,8 +109,7 @@ int main(int argc, const char * argv[]) {
                 fileIn >> tableToSearch[i][j];
             }
         }
-        
-
+    
         //Store words to search into array
         while(getline(fileIn, str)){
             fileIn >> wordsToSearch[k];
@@ -77,15 +124,26 @@ int main(int argc, const char * argv[]) {
         cout << "Table to search:" << endl;
         printTable(tableToSearch);
         
-        cout << endl;
-        
         //Print words to search
         cout << "Words to search:" << endl;
         printWordsToSearch(wordsToSearch);
         
         cout << endl;
 
-        searchTableForWord(tableToSearch, "Fit");
+        //For each word in the list of words, search the word and print the result
+        for (string word : wordsToSearch){
+            int startRow;
+            int startCol;
+            string direction;
+            
+            bool result = searchTableForWord(tableToSearch, word, direction, startRow, startCol);
+
+            if (result != 0){
+                cout << word << " has been found at " << startRow << "," << startCol << " going " << direction <<  endl;
+            } else {
+                cout << word << " is not found" << endl;
+            }
+        }
         
         cout << endl;
         return 0;
