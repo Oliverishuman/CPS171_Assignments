@@ -1,13 +1,13 @@
 /*
-  main.cpp
-  CPS171_MP6
+ main.cpp
+ CPS171_MP6
 
  Program is written to receive an input .txt file with an 8x8 table of characters and a list of words to search for.
  The program will store the 8x8 table in a 2-Dimensional array, and store the words to search in a standard array.
  Each word in the list will be searched, if a match is found the row and column of the starting letter will be listed,
  otherwise, the word will have a direction of "Not found"
  
-  Created by Oliver McMillen on 11/10/23.
+ Created by Oliver McMillen on 11/10/23.
 */
 
 #include <iostream>
@@ -17,8 +17,6 @@
 
 using namespace std;
 
-ifstream fileIn;
-string str;
 const int tableSize = 8;
 const int wordsToSearchSize = 6;
 
@@ -45,14 +43,15 @@ void printWordsToSearch(string wordsToSearch[wordsToSearchSize]){
 bool searchTableForWord(char tableToSearch[tableSize][tableSize], string word, string& direction, int& startRow, int& startCol){
 
     int wordLength = int(size(word));
+    //Changes all characters in word to uppercase
     transform(word.begin(), word.end(), word.begin(), ::toupper);
 
     //Horizontal search
     for (int i = 0; i < tableSize; i++) {
         for (int j = 0; j <= tableSize - wordLength; j++) {
-            //Creates substring of next letters horizontally within range of word length
+            //Create substring of next letters horizontally within range of word length
             string substring(&tableToSearch[i][j], wordLength);
-            //cout << substring << " at position " << i << "," << j << endl;
+            
             //If word to search matches the substring, assign the variables to output
             if (word == substring) {
                 startRow = i;
@@ -63,7 +62,7 @@ bool searchTableForWord(char tableToSearch[tableSize][tableSize], string word, s
         }
     }
     
-//    Vertical search
+    //Vertical search
     for (int i = 0; i <= tableSize - wordLength; i++) {
         for (int j = 0; j < tableSize; j++) {
             string substring;
@@ -71,7 +70,7 @@ bool searchTableForWord(char tableToSearch[tableSize][tableSize], string word, s
             for (int k = 0; k < wordLength; k++) {
                 substring += tableToSearch[i + k][j];
             }
-            //cout << substring << " at position " << i << "," << j << endl;
+            
             //If word to search matches the substring, assign the variables to output
             if (word == substring) {
                 startRow = i;
@@ -90,7 +89,7 @@ bool searchTableForWord(char tableToSearch[tableSize][tableSize], string word, s
             for (int k = 0; k < wordLength; k++) {
                 substring += tableToSearch[i + k][j + k];
             }
-            //cout << substring << " at position " << i << "," << j << endl;
+
             //If word to search matches the substring, assign the variables to output
             if (word == substring) {
                 startRow = i;
@@ -100,11 +99,14 @@ bool searchTableForWord(char tableToSearch[tableSize][tableSize], string word, s
             }
         }
     }
+    //If no match is found, return false
     return false;
 }
 
 
 int main(int argc, const char * argv[]) {
+    ifstream fileIn;
+    string str;
 
     char tableToSearch[tableSize][tableSize];
     string wordsToSearch[wordsToSearchSize];
@@ -121,7 +123,7 @@ int main(int argc, const char * argv[]) {
             }
         }
     
-        //Store words to search into array
+        //Store words to search into wordsToSearch array
         while(getline(fileIn, str)){
             fileIn >> wordsToSearch[k];
             k++;
@@ -145,7 +147,7 @@ int main(int argc, const char * argv[]) {
         << setw(18) << "Column " << setw(20) << "Direction" << endl;
         cout << "----------------------------------------------------------------" << endl;
         
-        //For each word in the list of words, search the word and print the result
+        //For each word in the list of words, search the word and define the result, then output based on result
         for (string word : wordsToSearch){
             int startRow;
             int startCol;
@@ -165,3 +167,4 @@ int main(int argc, const char * argv[]) {
         
     }
 }
+
