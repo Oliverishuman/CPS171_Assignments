@@ -80,7 +80,6 @@ bool searchTableForWord(char tableToSearch[tableSize][tableSize], string word, s
             for (int k = 0; k < wordLength; k++) {
                 substring += tableToSearch[i + k][j + k];
             }
-            
             if (word == substring) {
                 startRow = i;
                 startCol = j;
@@ -131,7 +130,7 @@ int main(int argc, const char * argv[]) {
         cout << endl;
 
         //For each word in the list of words, search the word and print the result
-        
+        cout << fixed << setw(8) << "Word" << setw(14) << "Row" << setw(18) << "Column " << setw(20) << "Direction" << endl;
         for (string word : wordsToSearch){
             int startRow;
             int startCol;
@@ -139,10 +138,10 @@ int main(int argc, const char * argv[]) {
             
             bool result = searchTableForWord(tableToSearch, word, direction, startRow, startCol);
 
-            if (result != 0){
-                cout << word << " has been found at " << startRow << "," << startCol << " going " << direction <<  endl;
+            if (result) {
+                cout << fixed << right << setw(8) << word << setw(14) << startRow << setw(17) << startCol << setw(21) << direction << endl;
             } else {
-                cout << word << " is not found" << endl;
+                cout << fixed << right << setw(8) << word << setw(14) << " " << setw(17) << " " << setw(21) << "Not Found" << endl;
             }
         }
         
