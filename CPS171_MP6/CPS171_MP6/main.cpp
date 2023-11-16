@@ -2,9 +2,10 @@
   main.cpp
   CPS171_MP6
 
- Read the file in
- Fill in the 2D array of a size 8x8
- find the words in the table
+ Program is written to receive an input .txt file with an 8x8 table of characters and a list of words to search for.
+ The program will store the 8x8 table in a 2-Dimensional array, and store the words to search in a standard array.
+ Each word in the list will be searched, if a match is found the row and column of the starting letter will be listed,
+ otherwise, the word will have a direction of "Not found"
  
   Created by Oliver McMillen on 11/10/23.
 */
@@ -37,17 +38,22 @@ void printWordsToSearch(string wordsToSearch[wordsToSearchSize]){
     }
 }
 
-//Reference parameteres send data back to the initial variable calling the function, in order to print the data in the format
+/*
+ Reference parameteres send data back to the initial
+ variable calling the function, in order to print the data in the format
+ */
 bool searchTableForWord(char tableToSearch[tableSize][tableSize], string word, string& direction, int& startRow, int& startCol){
 
-    int wordLength = size(word);
+    int wordLength = int(size(word));
     transform(word.begin(), word.end(), word.begin(), ::toupper);
 
     //Horizontal search
     for (int i = 0; i < tableSize; i++) {
         for (int j = 0; j <= tableSize - wordLength; j++) {
+            //Creates substring of next letters horizontally within range of word length
             string substring(&tableToSearch[i][j], wordLength);
-//            cout << substring << " (at position " << i << "," << j << ")" << endl;
+            //cout << substring << " at position " << i << "," << j << endl;
+            //If word to search matches the substring, assign the variables to output
             if (word == substring) {
                 startRow = i;
                 startCol = j;
@@ -57,13 +63,16 @@ bool searchTableForWord(char tableToSearch[tableSize][tableSize], string word, s
         }
     }
     
-    //Vertical search
+//    Vertical search
     for (int i = 0; i <= tableSize - wordLength; i++) {
         for (int j = 0; j < tableSize; j++) {
             string substring;
+            //Create substring of next letters vertically within range of word length
             for (int k = 0; k < wordLength; k++) {
                 substring += tableToSearch[i + k][j];
             }
+            //cout << substring << " at position " << i << "," << j << endl;
+            //If word to search matches the substring, assign the variables to output
             if (word == substring) {
                 startRow = i;
                 startCol = j;
@@ -77,9 +86,12 @@ bool searchTableForWord(char tableToSearch[tableSize][tableSize], string word, s
     for (int i = 0; i <= tableSize - wordLength; i++) {
         for (int j = 0; j <= tableSize - wordLength; j++) {
             string substring;
+            //Create substring of next letters diagonally within range of word length
             for (int k = 0; k < wordLength; k++) {
                 substring += tableToSearch[i + k][j + k];
             }
+            //cout << substring << " at position " << i << "," << j << endl;
+            //If word to search matches the substring, assign the variables to output
             if (word == substring) {
                 startRow = i;
                 startCol = j;
@@ -88,14 +100,14 @@ bool searchTableForWord(char tableToSearch[tableSize][tableSize], string word, s
             }
         }
     }
-    
     return false;
 }
+
 
 int main(int argc, const char * argv[]) {
 
     char tableToSearch[tableSize][tableSize];
-    string wordsToSearch [wordsToSearchSize];
+    string wordsToSearch[wordsToSearchSize];
     int k=0;
     
     fileIn.open("DataFileIn.txt");
@@ -117,20 +129,23 @@ int main(int argc, const char * argv[]) {
         fileIn.close();
         
         
-    
-        
         //Print table to search
         cout << "Table to search:" << endl;
         printTable(tableToSearch);
+        cout << endl;
         
         //Print words to search
         cout << "Words to search:" << endl;
         printWordsToSearch(wordsToSearch);
-        
         cout << endl;
 
+
+        //Output header
+        cout << fixed << setw(8) << "Word" << setw(14) << "Row"
+        << setw(18) << "Column " << setw(20) << "Direction" << endl;
+        cout << "----------------------------------------------------------------" << endl;
+        
         //For each word in the list of words, search the word and print the result
-        cout << fixed << setw(8) << "Word" << setw(14) << "Row" << setw(18) << "Column " << setw(20) << "Direction" << endl;
         for (string word : wordsToSearch){
             int startRow;
             int startCol;
