@@ -156,9 +156,11 @@ int main(int argc, const char * argv[]) {
             bool result = searchTableForWord(tableToSearch, word, direction, startRow, startCol);
 
             if (result) {
-                cout << fixed << right << setw(8) << word << setw(14) << startRow << setw(17) << startCol << setw(21) << direction << endl;
+                cout << fixed << right << setw(8) << word << setw(14) << startRow
+                << setw(17) << startCol << setw(21) << direction << endl;
             } else {
-                cout << fixed << right << setw(8) << word << setw(14) << " " << setw(17) << " " << setw(21) << "Not Found" << endl;
+                cout << fixed << right << setw(8) << word << setw(14) <<
+                " " << setw(17) << " " << setw(21) << "Not Found" << endl;
             }
         }
         
