@@ -30,8 +30,10 @@ list<string> splitString(string sentenceToBeSplit, list<string>& listOfWords, st
         //Sets the correct spelling of the word if not set already
         if (correctSpellingWord.empty()){
             correctSpellingWord = word;
+            
+        } else {
+            listOfWords.insert(listOfWords.end(), word);
         }
-        listOfWords.insert(listOfWords.end(), word);
     }
     
     //Returns a list of words from a specific line interpreted from the .txt file
@@ -46,69 +48,79 @@ list<string> splitString(string sentenceToBeSplit, list<string>& listOfWords, st
 
 errorStatus checkWordSpelling(string userWord, string correctSpellingWord, errorStatus& errorStatus){
     errorStatus = ERROR;
+    int errorCount = 0;
 
-    if (userWord == correctSpellingWord){
-        errorStatus = CORRECT;
-    }
+
     long userWordLength = userWord.length();
     long correctSpellingWordLength = correctSpellingWord.length();
     
-    
-    if (userWordLength == correctSpellingWordLength){
+    if (userWord == correctSpellingWord){
+        errorStatus = CORRECT;
+    } else if (userWordLength == correctSpellingWordLength){
         int count=0;
         
         for (int j=0; j < userWordLength; j++){
             if (userWord[j] != correctSpellingWord[j]){
                 count++;
             }
+            
+            
         }
         
         if (count == 1){
             errorStatus = SUBSTITUTION;
+            errorCount++;
+        }
+    } else{
+        
+        for (int i = 0; i < correctSpellingWordLength; i++) {
+            //If character at position 'i' in userWord is not equal to that in correctSpellingWord
+            if (userWord[i] != correctSpellingWord[i]) {
+                //Transposition check
+//                if (i + 1 < userWordLength && userWord[i] == correctSpellingWord[i + 1] && userWord[i + 1] == correctSpellingWord[i]) {
+//                    errorStatus = TRANSPOSITION;
+//                    errorCount++;
+//                }
+                
+                //Deletion check
+                if (userWordLength == correctSpellingWordLength - 1 && userWord.substr(i) == correctSpellingWord.substr(i + 1)) {
+                    errorStatus = DELETION;
+                    errorCount++;
+                }
+                
+                //Insertion check
+                if (userWordLength == correctSpellingWordLength + 1 && userWord.substr(i+1) == correctSpellingWord.substr(i)) {
+                    errorStatus = INSERTION;
+                    errorCount++;
+                }
+                
+                if (errorCount >= 2){
+                    errorStatus = ERROR;
+                }
+                //            if (userWordLength == correctSpellingWordLength + 1) {
+                //                errorStatus = INSERTION;
+                //            }
+                
+                
+                break;
+            }
         }
     }
-    
-    for (int i = 0; i < correctSpellingWordLength; i++) {
-        //If character at position 'i' in userWord is not equal to that in correctSpellingWord
-        if (userWord[i] != correctSpellingWord[i]) {
-            //Transposition check
-            if (i + 1 < userWordLength && userWord[i] == correctSpellingWord[i + 1] && userWord[i + 1] == correctSpellingWord[i]) {
-                errorStatus = TRANSPOSITION;
-            }
-
-            //Deletion check
-            if (userWordLength == correctSpellingWordLength - 1 && userWord.substr(i) == correctSpellingWord.substr(i + 1)) {
-                errorStatus = DELETION;
-            }
-
-            //Insertion check
-            if (userWordLength == correctSpellingWordLength + 1 && userWord.substr(i+1) == correctSpellingWord.substr(i)) {
-                errorStatus = INSERTION;
-            }
-//            if (userWordLength == correctSpellingWordLength + 1) {
-//                errorStatus = INSERTION;
-//            }
-            
-            
-            break;
-        }
-    }
-    
+    cout << "error count: " << errorCount << endl;
     return errorStatus;
 }
-
-
-
-
-
-
 
 
 int main(int argc, const char * argv[]) {
     ifstream inFile;
     string str;
     list<string> listOfWords = {};
-    
+    int correctCount=0;
+    int subCount=0;
+    int transCount=0;
+    int deleteCount=0;
+    int insertCount=0;
+    int errorCount=0;
 
     
     inFile.open("mp7spelling.txt");
@@ -124,6 +136,7 @@ int main(int argc, const char * argv[]) {
             string correctSpellingWord;
             errorStatus errorStatus;
             string errorString;
+
             
             /*
             Call splitString function to split each word from sentence into a list.
@@ -145,16 +158,22 @@ int main(int argc, const char * argv[]) {
                 //Validates the error status and prints proper message
                 if (errorStatus == 5){
                     errorString = "is too bad to be a mispelling";
+                    errorCount++;
                 } else if (errorStatus == 4){
                     errorString = "has one character inserted";
+                    insertCount++;
                 }else if (errorStatus == 3){
                     errorString = "has one character deleted";
+                    deleteCount++;
                 } else if (errorStatus == 2){
                     errorString = "contains a transposition";
+                    transCount++;
                 } else if (errorStatus == 1){
                     errorString = "has one character substituted";
+                    subCount++;
                 }else if (errorStatus == 0){
                     errorString = "is correct";
+                    correctCount++;
                 }
                 
                 
@@ -170,8 +189,16 @@ int main(int argc, const char * argv[]) {
 //                cout << word << "\n";
 //        }
         
+        cout << "There were " << correctCount << " correct words" << endl;
+        cout << "There were " << subCount << " words with a substitution" << endl;
+        cout << "There were " << transCount << " words with a transposition" << endl;
+        cout << "There were " << deleteCount << " words with a deletion" << endl;
+        cout << "There were " << insertCount << " words with an insertion" << endl;
+        cout << "There were " << errorCount << " words that were way off" << endl;
+        
         inFile.close();
     }
 
+    cout << endl;
     return 0;
 }
