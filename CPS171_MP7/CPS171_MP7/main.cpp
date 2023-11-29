@@ -9,38 +9,35 @@
 #include <string>
 #include <iomanip>
 #include <fstream>
+#include <sstream>
+#include <list>
 
 
 using namespace std;
 
-void splitString(string str, char del){
+list<string> splitString(string sentenceToBeSplit, list<string>& listOfWords)
+{
+    string word;
+    stringstream splitstream(sentenceToBeSplit);
     
-    // declaring temp string to store the curr "word" upto del
+    //List is initialized as empty each time the function is called
+    listOfWords = {};
     
-    string temp = "";
-
-    for(int i=0; i<(int)str.size(); i++){
-        // If cur char is not del, then append it to the cur "word", otherwise
-        // you have completed the word, print it, and start a new word.
-        
-        if(str[i] != del){
-            temp += str[i];
-            
-        }
-        else{
-            
-            cout << temp << " ";
-            temp = "";
-            
-        }
+    while (splitstream >> word) {
+        listOfWords.insert(listOfWords.end(), word);
     }
-    cout << temp;
+    
+    //Returns a list of words from a specific line interpreted from the .txt file
+    return listOfWords;
 }
+
+
 
 int main(int argc, const char * argv[]) {
     ifstream inFile;
     string str;
-    
+    list<string> listOfWords = {};
+
     
     inFile.open("mp7spelling.txt");
     
@@ -51,11 +48,29 @@ int main(int argc, const char * argv[]) {
         
         cout << "Spelling Errors - MP3 by Oliver McMillen" << endl << endl;
 
+        //While there is a new line with contents, proceed
         while(getline(inFile, str)){
-            cout << str << endl;
-//            cout << stringToArray(str) << endl;
+            /*
+            Call splitString function to split each word from sentence into a list.
+            Reference parameter for the listOfWords so I can continue to use the data
+            For each line in the txt file, a new list is created and the previous list is wiped.
+            */
+            splitString(str, listOfWords);
             
+            //Check what list of words for each new list created
+            cout << "**** Printing new list now ****" << endl;
+            for (auto word : listOfWords){
+                cout << word << "\n";
+            }
+            cout << endl;
         }
+        
+        
+        //Check what list of words for the last new list created
+//        cout << "*** Printing the last words added to the empty list ***" << endl;
+//        for (auto word : listOfWords){
+//                cout << word << "\n";
+//        }
         
         inFile.close();
     }
