@@ -14,6 +14,8 @@
 
 
 using namespace std;
+enum errorStatus{CORRECT, SUBSTITUTION, TRANSPOSITION, DELETION, INSERTION, ERROR};
+
 
 list<string> splitString(string sentenceToBeSplit, list<string>& listOfWords, string& correctSpellingWord)
 {
@@ -38,14 +40,76 @@ list<string> splitString(string sentenceToBeSplit, list<string>& listOfWords, st
 
 
 
+
+
+
+
+errorStatus checkWordSpelling(string userWord, string correctSpellingWord, errorStatus& errorStatus){
+    errorStatus = ERROR;
+
+    if (userWord == correctSpellingWord){
+        errorStatus = CORRECT;
+    }
+    long userWordLength = userWord.length();
+    long correctSpellingWordLength = correctSpellingWord.length();
+    
+    
+    if (userWordLength == correctSpellingWordLength){
+        int count=0;
+        
+        for (int j=0; j < userWordLength; j++){
+            if (userWord[j] != correctSpellingWord[j]){
+                count++;
+            }
+        }
+        
+        if (count == 1){
+            errorStatus = SUBSTITUTION;
+        }
+    }
+    
+    for (int i = 0; i < correctSpellingWordLength; i++) {
+        //If character at position 'i' in userWord is not equal to that in correctSpellingWord
+        if (userWord[i] != correctSpellingWord[i]) {
+            //Transposition check
+            if (i + 1 < userWordLength && userWord[i] == correctSpellingWord[i + 1] && userWord[i + 1] == correctSpellingWord[i]) {
+                errorStatus = TRANSPOSITION;
+            }
+
+            //Deletion check
+            if (userWordLength == correctSpellingWordLength - 1 && userWord.substr(i) == correctSpellingWord.substr(i + 1)) {
+                errorStatus = DELETION;
+            }
+
+            //Insertion check
+            if (userWordLength == correctSpellingWordLength + 1 && userWord.substr(i+1) == correctSpellingWord.substr(i)) {
+                errorStatus = INSERTION;
+            }
+//            if (userWordLength == correctSpellingWordLength + 1) {
+//                errorStatus = INSERTION;
+//            }
+            
+            
+            break;
+        }
+    }
+    
+    return errorStatus;
+}
+
+
+
+
+
+
+
+
 int main(int argc, const char * argv[]) {
     ifstream inFile;
     string str;
     list<string> listOfWords = {};
     
-    enum errorStatus{CORRECT, SUBSTITUTION, TRANSPOSITION, DELETION, INSERTION, ERROR};
-    errorStatus errorStatus;
-    string errorString;
+
     
     inFile.open("mp7spelling.txt");
     
@@ -53,12 +117,14 @@ int main(int argc, const char * argv[]) {
     if (inFile.fail())
         cout << endl << "File not found!" << endl;
     else{
-        cout << "Spelling Errors - MP3 by Oliver McMillen" << endl << endl;
+        cout << "Spelling Errors - MP7 by Oliver McMillen" << endl << endl;
 
         //While there is a new line with contents, proceed
         while(getline(inFile, str)){
             string correctSpellingWord;
-
+            errorStatus errorStatus;
+            string errorString;
+            
             /*
             Call splitString function to split each word from sentence into a list.
             Reference parameter for the listOfWords so I can continue to use the data
@@ -73,7 +139,26 @@ int main(int argc, const char * argv[]) {
                 cout << "User word is " << word << "\n";
                 
                 
-                cout  << "The user word " << endl << endl;
+                checkWordSpelling(word, correctSpellingWord, errorStatus);
+//                cout << errorStatus << endl;
+                
+                //Validates the error status and prints proper message
+                if (errorStatus == 5){
+                    errorString = "is too bad to be a mispelling";
+                } else if (errorStatus == 4){
+                    errorString = "has one character inserted";
+                }else if (errorStatus == 3){
+                    errorString = "has one character deleted";
+                } else if (errorStatus == 2){
+                    errorString = "contains a transposition";
+                } else if (errorStatus == 1){
+                    errorString = "has one character substituted";
+                }else if (errorStatus == 0){
+                    errorString = "is correct";
+                }
+                
+                
+                cout  << "The user word " << errorString << endl << endl;
             }
             cout << endl;
         }
