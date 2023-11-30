@@ -49,11 +49,17 @@ list<string> splitString(string sentenceToBeSplit, list<string>& listOfWords, st
 errorStatus checkWordSpelling(string userWord, string correctSpellingWord, errorStatus& errorStatus){
     errorStatus = ERROR;
     int errorCount = 0;
-    int wordLength = 0;
+    long wordLength = 0;
     
     
     long userWordLength = userWord.length();
     long correctSpellingWordLength = correctSpellingWord.length();
+    
+    if (userWordLength < correctSpellingWordLength){
+        wordLength = correctSpellingWordLength;
+    } else{
+        wordLength = userWordLength;
+    }
     
     if (userWord == correctSpellingWord){
         errorStatus = CORRECT;
@@ -63,7 +69,7 @@ errorStatus checkWordSpelling(string userWord, string correctSpellingWord, error
     } else if (userWordLength == correctSpellingWordLength){
         
         
-        for (int j=0; j < userWordLength; j++){
+        for (int j=0; j < wordLength; j++){
             cout << "-letter " << userWord[j] << endl;
             /*
              If the letter in userWord matches the next letter in correctSpellingWord, and the
@@ -79,17 +85,18 @@ errorStatus checkWordSpelling(string userWord, string correctSpellingWord, error
 
             }
             //Else if statement because a substitution and transposition cannot occur with the same letter
-            else if (userWord[j] != correctSpellingWord[j] && userWord[j + 1] == correctSpellingWord[j + 1]){
+            else if (userWord[j] != correctSpellingWord[j]){
                 errorStatus = SUBSTITUTION;
                 errorCount++;
                 
                 cout << "error status: " << errorStatus << endl;
+                
 
             }
         }
         
     } else {
-        for (int i = 0; i < userWordLength; i++) {
+        for (int i = 0; i < wordLength; i++) {
             cout << "-letter " << userWord[i] << endl;
 
             //If character at position 'i' in userWord is not equal to that in correctSpellingWord
@@ -97,7 +104,7 @@ errorStatus checkWordSpelling(string userWord, string correctSpellingWord, error
                 
                 //Deletion check
                 if (userWordLength == correctSpellingWordLength - 1) {
-                    if (userWord.substr(i) == correctSpellingWord.substr(i + 1) || ){
+                    if (userWord.substr(i) == correctSpellingWord.substr(i + 1)){
                         
                         
                         errorStatus = DELETION;
@@ -110,26 +117,33 @@ errorStatus checkWordSpelling(string userWord, string correctSpellingWord, error
                 }
                 
                 //Insertion check
-                else if (userWordLength == correctSpellingWordLength + 1 && userWord.substr(i+1) == correctSpellingWord.substr(i)) {
-                    errorStatus = INSERTION;
-                    errorCount++;
-                    
-                    cout << "error status: " << errorStatus << endl;
-                    break;
+                else if (userWordLength == correctSpellingWordLength + 1) {
+                    if (userWord.substr(i+1) == correctSpellingWord.substr(i)){
+                        errorStatus = INSERTION;
+                        errorCount++;
+                        
+                        cout << "error status: " << errorStatus << endl;
+                        break;
+                    }
                 }
 //                else if (userWordLength == correctSpellingWordLength + 1 && userWord.substr(0,i) == correctSpellingWord.substr(0,i)){
 //                    errorStatus = INSERTION;
 //                    errorCount++;
 //                }
-                
-                //Substituition check if userWord length is not the same as correctSpellingWordLength
-                if (userWord[i + 1] == correctSpellingWord[i + 1]){
+
                     errorStatus = SUBSTITUTION;
                     errorCount++;
                     
                     cout << "error status: " << errorStatus << endl;
-
-                }
+                
+                //Substituition check if userWord length is not the same as correctSpellingWordLength
+//                if (userWord[i + 1] == correctSpellingWord[i + 1]){
+//                    errorStatus = SUBSTITUTION;
+//                    errorCount++;
+//                    
+//                    cout << "error status: " << errorStatus << endl;
+//
+//                }
                 
 //                break;
             }
