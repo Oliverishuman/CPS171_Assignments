@@ -1,9 +1,9 @@
 /*
-  main.cpp
-  CPS171_MP7
-
-  Created by Oliver McMillen on 11/27/23.
-*/
+ main.cpp
+ CPS171_MP7
+ 
+ Created by Oliver McMillen on 11/27/23.
+ */
 
 #include <iostream>
 #include <string>
@@ -21,7 +21,7 @@ list<string> splitString(string sentenceToBeSplit, list<string>& listOfWords, st
 {
     string word;
     stringstream splitstream(sentenceToBeSplit);
-//    string correctSpellingWord;
+    //    string correctSpellingWord;
     
     //List is initialized as empty each time the function is called
     listOfWords = {};
@@ -49,38 +49,39 @@ list<string> splitString(string sentenceToBeSplit, list<string>& listOfWords, st
 errorStatus checkWordSpelling(string userWord, string correctSpellingWord, errorStatus& errorStatus){
     errorStatus = ERROR;
     int errorCount = 0;
-
-
+    
+    
     long userWordLength = userWord.length();
     long correctSpellingWordLength = correctSpellingWord.length();
     
     if (userWord == correctSpellingWord){
         errorStatus = CORRECT;
     } else if (userWordLength == correctSpellingWordLength){
-        int count=0;
+        
         
         for (int j=0; j < userWordLength; j++){
-            if (userWord[j] != correctSpellingWord[j]){
-                count++;
+            
+            /*
+             If the letter in userWord matches the next letter in correctSpellingWord, and the
+             next letter in userWord matches the current letter in correctSpellingWord, its's transposition
+            */
+            if (userWord[j] == correctSpellingWord[j + 1] && userWord[j + 1] == correctSpellingWord[j]) {
+                errorStatus = TRANSPOSITION;
+                errorCount++;
+                //Incrememnts the position so the next iteration isn't mistaken by the transposed letter
+                j++;
             }
-            
-            
+            //Else if statement because a substitution and transposition cannot occur with the same letter
+            else if (userWord[j] != correctSpellingWord[j] && userWord[j + 1] == correctSpellingWord[j + 1]){
+                errorStatus = SUBSTITUTION;
+                errorCount++;
+            }
         }
         
-        if (count == 1){
-            errorStatus = SUBSTITUTION;
-            errorCount++;
-        }
-    } else{
-        
+    } else {
         for (int i = 0; i < correctSpellingWordLength; i++) {
             //If character at position 'i' in userWord is not equal to that in correctSpellingWord
             if (userWord[i] != correctSpellingWord[i]) {
-                //Transposition check
-//                if (i + 1 < userWordLength && userWord[i] == correctSpellingWord[i + 1] && userWord[i + 1] == correctSpellingWord[i]) {
-//                    errorStatus = TRANSPOSITION;
-//                    errorCount++;
-//                }
                 
                 //Deletion check
                 if (userWordLength == correctSpellingWordLength - 1 && userWord.substr(i) == correctSpellingWord.substr(i + 1)) {
@@ -92,20 +93,25 @@ errorStatus checkWordSpelling(string userWord, string correctSpellingWord, error
                 if (userWordLength == correctSpellingWordLength + 1 && userWord.substr(i+1) == correctSpellingWord.substr(i)) {
                     errorStatus = INSERTION;
                     errorCount++;
+                } else if (userWordLength == correctSpellingWordLength + 1 && userWord.substr(0,i) == correctSpellingWord.substr(0,i)){
+                    errorStatus = INSERTION;
+                    errorCount++;
                 }
                 
-                if (errorCount >= 2){
-                    errorStatus = ERROR;
+                //Substituition check if userWord length is not the same as correctSpellingWordLength
+                if (userWord[i + 1] == correctSpellingWord[i + 1]){
+                    errorStatus = SUBSTITUTION;
+                    errorCount++;
                 }
-                //            if (userWordLength == correctSpellingWordLength + 1) {
-                //                errorStatus = INSERTION;
-                //            }
-                
                 
                 break;
             }
         }
     }
+    
+        if (errorCount >= 2){
+            errorStatus = ERROR;
+        }
     cout << "error count: " << errorCount << endl;
     return errorStatus;
 }
@@ -121,7 +127,7 @@ int main(int argc, const char * argv[]) {
     int deleteCount=0;
     int insertCount=0;
     int errorCount=0;
-
+    
     
     inFile.open("mp7spelling.txt");
     
@@ -130,19 +136,19 @@ int main(int argc, const char * argv[]) {
         cout << endl << "File not found!" << endl;
     else{
         cout << "Spelling Errors - MP7 by Oliver McMillen" << endl << endl;
-
+        
         //While there is a new line with contents, proceed
         while(getline(inFile, str)){
             string correctSpellingWord;
             errorStatus errorStatus;
             string errorString;
-
+            
             
             /*
-            Call splitString function to split each word from sentence into a list.
-            Reference parameter for the listOfWords so I can continue to use the data
-            For each line in the txt file, a new list is created and the previous list is wiped.
-            */
+             Call splitString function to split each word from sentence into a list.
+             Reference parameter for the listOfWords so I can continue to use the data
+             For each line in the txt file, a new list is created and the previous list is wiped.
+             */
             splitString(str, listOfWords, correctSpellingWord);
             
             //Print list of words for each new list created
@@ -153,7 +159,7 @@ int main(int argc, const char * argv[]) {
                 
                 
                 checkWordSpelling(word, correctSpellingWord, errorStatus);
-//                cout << errorStatus << endl;
+                //                cout << errorStatus << endl;
                 
                 //Validates the error status and prints proper message
                 if (errorStatus == 5){
@@ -184,10 +190,10 @@ int main(int argc, const char * argv[]) {
         
         
         //Check what list of words for the last new list created
-//        cout << "*** Printing the last words added to the empty list ***" << endl;
-//        for (auto word : listOfWords){
-//                cout << word << "\n";
-//        }
+        //        cout << "*** Printing the last words added to the empty list ***" << endl;
+        //        for (auto word : listOfWords){
+        //                cout << word << "\n";
+        //        }
         
         cout << "There were " << correctCount << " correct words" << endl;
         cout << "There were " << subCount << " words with a substitution" << endl;
@@ -198,7 +204,7 @@ int main(int argc, const char * argv[]) {
         
         inFile.close();
     }
-
+    
     cout << endl;
     return 0;
 }
