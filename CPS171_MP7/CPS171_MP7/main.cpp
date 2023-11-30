@@ -16,7 +16,6 @@
 using namespace std;
 enum errorStatus{CORRECT, SUBSTITUTION, TRANSPOSITION, DELETION, INSERTION, ERROR};
 
-
 list<string> splitString(string sentenceToBeSplit, list<string>& listOfWords, string& correctSpellingWord)
 {
     string word;
