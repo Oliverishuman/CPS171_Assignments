@@ -137,7 +137,7 @@ int main(int argc, const char * argv[]) {
     int errorCount=0;
     
     
-    inFile.open("mp7spelling_copy.txt");
+    inFile.open("mp7spelling.txt");
     
     //If file is not found, print error message to console
     if (inFile.fail())
