@@ -26,11 +26,12 @@ list<string> splitString(string sentenceToBeSplit, list<string>& listOfWords, st
     listOfWords = {};
     
     while (splitstream >> word) {
-        //Sets the correct spelling of the word if not set already
+        //Sets the correct spelling of the word if empty
         if (correctSpellingWord.empty()){
             correctSpellingWord = word;
             
         } else {
+            //Only inserts words to the list if the correctSpellingWord is set
             listOfWords.insert(listOfWords.end(), word);
         }
     }
@@ -63,13 +64,13 @@ errorStatus checkWordSpelling(string userWord, string correctSpellingWord, error
     if (userWord == correctSpellingWord){
         errorStatus = CORRECT;
         
-        cout << "error status: " << errorStatus << endl;
+//        cout << "error status: " << errorStatus << endl;
 
     } else if (userWordLength == correctSpellingWordLength){
         
         
         for (int j=0; j < wordLength; j++){
-            cout << "-letter " << userWord[j] << endl;
+//            cout << "-letter " << userWord[j] << endl;
             /*
              If the letter in userWord matches the next letter in correctSpellingWord, and the
              next letter in userWord matches the current letter in correctSpellingWord, its's transposition
@@ -80,7 +81,7 @@ errorStatus checkWordSpelling(string userWord, string correctSpellingWord, error
                 //Incrememnts the position so the next iteration isn't mistaken by the transposed letter
                 j++;
                 
-                cout << "error status: " << errorStatus << endl;
+//                cout << "error status: " << errorStatus << endl;
 
             }
             //Else if statement because a substitution and transposition cannot occur with the same letter
@@ -88,7 +89,7 @@ errorStatus checkWordSpelling(string userWord, string correctSpellingWord, error
                 errorStatus = SUBSTITUTION;
                 errorCount++;
                 
-                cout << "error status: " << errorStatus << endl;
+//                cout << "error status: " << errorStatus << endl;
                 
 
             }
@@ -96,7 +97,7 @@ errorStatus checkWordSpelling(string userWord, string correctSpellingWord, error
         
     } else {
         for (int i = 0; i < wordLength; i++) {
-            cout << "-letter " << userWord[i] << endl;
+//            cout << "-letter " << userWord[i] << endl;
 
             //If character at position 'i' in userWord is not equal to that in correctSpellingWord
             if (userWord[i] != correctSpellingWord[i]) {
@@ -110,7 +111,7 @@ errorStatus checkWordSpelling(string userWord, string correctSpellingWord, error
                         errorCount++;
                         //                    i++;
                         
-                        cout << "error status: " << errorStatus << endl;
+//                        cout << "error status: " << errorStatus << endl;
                         break;
                     }
                 }
@@ -121,7 +122,7 @@ errorStatus checkWordSpelling(string userWord, string correctSpellingWord, error
                         errorStatus = INSERTION;
                         errorCount++;
                         
-                        cout << "error status: " << errorStatus << endl;
+//                        cout << "error status: " << errorStatus << endl;
                         break;
                     }
                 }
@@ -133,7 +134,7 @@ errorStatus checkWordSpelling(string userWord, string correctSpellingWord, error
                     errorStatus = SUBSTITUTION;
                     errorCount++;
                     
-                    cout << "error status: " << errorStatus << endl;
+//                    cout << "error status: " << errorStatus << endl;
                 
                 //Substituition check if userWord length is not the same as correctSpellingWordLength
 //                if (userWord[i + 1] == correctSpellingWord[i + 1]){
@@ -152,7 +153,7 @@ errorStatus checkWordSpelling(string userWord, string correctSpellingWord, error
         if (errorCount >= 2){
             errorStatus = ERROR;
         }
-    cout << "error count: " << errorCount << endl;
+//    cout << "error count: " << errorCount << endl;
     return errorStatus;
 }
 
