@@ -1,6 +1,13 @@
 /*
- main.cpp
- CPS171_MP7
+ CPS171_MP7 - Spelling Coreection
+ 
+ This program reads in a .txt file containing multiple lines of strings. In the .txt file, each line first contains
+ a correct spelling of a specific word, then follows are multiple attempts at spelling that word.
+ 
+ First the program will call a function to split each line into an independent list of strings. Then for each list,
+ each word in the list will be sent through checkWordSpelling function. This will return an error status, which
+ then depicts which message is printed to the console. Lastly, the program will print to the console a count of
+ each error status.
  
  Created by Oliver McMillen on 11/27/23.
  */
@@ -12,18 +19,17 @@
 #include <sstream>
 #include <list>
 
-
 using namespace std;
+
 enum errorStatus{CORRECT, SUBSTITUTION, TRANSPOSITION, DELETION, INSERTION, ERROR};
 
 list<string> splitString(string sentenceToBeSplit, list<string>& listOfWords, string& correctSpellingWord)
 {
     string word;
     stringstream splitstream(sentenceToBeSplit);
-    //    string correctSpellingWord;
     
-    //List is initialized as empty each time the function is called
-    listOfWords = {};
+    //List is cleared each time the function is called
+    listOfWords.clear();
     
     while (splitstream >> word) {
         //Sets the correct spelling of the word if empty
@@ -33,6 +39,7 @@ list<string> splitString(string sentenceToBeSplit, list<string>& listOfWords, st
         } else {
             //Only inserts words to the list if the correctSpellingWord is set
             listOfWords.insert(listOfWords.end(), word);
+            
         }
     }
     
@@ -40,120 +47,92 @@ list<string> splitString(string sentenceToBeSplit, list<string>& listOfWords, st
     return listOfWords;
 }
 
-
-
-
-
-
-
-errorStatus checkWordSpelling(string userWord, string correctSpellingWord, errorStatus& errorStatus){
+errorStatus checkWordSpelling(string wordToCheck, string correctSpellingWord, errorStatus& errorStatus){
     errorStatus = ERROR;
     int errorCount = 0;
     long wordLength = 0;
-    
-    
-    long userWordLength = userWord.length();
+    long wordToCheckLength = wordToCheck.length();
     long correctSpellingWordLength = correctSpellingWord.length();
     
-    if (userWordLength < correctSpellingWordLength){
+    if (wordToCheckLength < correctSpellingWordLength){
         wordLength = correctSpellingWordLength;
-    } else{
-        wordLength = userWordLength;
+        
+    } else {
+        wordLength = wordToCheckLength;
+
     }
     
-    if (userWord == correctSpellingWord){
+    if (wordToCheck == correctSpellingWord){
         errorStatus = CORRECT;
         
-//        cout << "error status: " << errorStatus << endl;
-
-    } else if (userWordLength == correctSpellingWordLength){
-        
-        
+    } else if (wordToCheckLength == correctSpellingWordLength){
         for (int j=0; j < wordLength; j++){
-//            cout << "-letter " << userWord[j] << endl;
+//            cout << "-letter " << wordToCheck[j] << endl;
+            
             /*
-             If the letter in userWord matches the next letter in correctSpellingWord, and the
-             next letter in userWord matches the current letter in correctSpellingWord, its's transposition
-            */
-            if (userWord[j] == correctSpellingWord[j + 1] && userWord[j + 1] == correctSpellingWord[j]) {
+             Transposition Check
+             If the current letter in wordToCheck matches the next letter in correctSpellingWord, and the
+             next letter in wordToCheck matches the current letter in correctSpellingWord, it's transposition
+             */
+            if (wordToCheck[j] == correctSpellingWord[j + 1] && wordToCheck[j + 1] == correctSpellingWord[j]) {
                 errorStatus = TRANSPOSITION;
                 errorCount++;
+                
                 //Incrememnts the position so the next iteration isn't mistaken by the transposed letter
                 j++;
                 
-//                cout << "error status: " << errorStatus << endl;
-
             }
-            //Else if statement because a substitution and transposition cannot occur with the same letter
-            else if (userWord[j] != correctSpellingWord[j]){
+            //Substitution Check
+            else if (wordToCheck[j] != correctSpellingWord[j]){
                 errorStatus = SUBSTITUTION;
                 errorCount++;
                 
-//                cout << "error status: " << errorStatus << endl;
-                
-
             }
         }
         
     } else {
         for (int i = 0; i < wordLength; i++) {
-//            cout << "-letter " << userWord[i] << endl;
-
-            //If character at position 'i' in userWord is not equal to that in correctSpellingWord
-            if (userWord[i] != correctSpellingWord[i]) {
+//            cout << "-letter " << wordToCheck[i] << endl;
+            
+            if (wordToCheck[i] != correctSpellingWord[i]) {
                 
-                //Deletion check
-                if (userWordLength == correctSpellingWordLength - 1) {
-                    if (userWord.substr(i) == correctSpellingWord.substr(i + 1)){
-                        
-                        
+                //Deletion Check
+                if (wordToCheckLength == correctSpellingWordLength - 1) {
+                    if (wordToCheck.substr(i) == correctSpellingWord.substr(i + 1)){
                         errorStatus = DELETION;
                         errorCount++;
-                        //                    i++;
-                        
-//                        cout << "error status: " << errorStatus << endl;
                         break;
+                        
                     }
                 }
                 
-                //Insertion check
-                else if (userWordLength == correctSpellingWordLength + 1) {
-                    if (userWord.substr(i+1) == correctSpellingWord.substr(i)){
+                //Insertion Check
+                else if (wordToCheckLength == correctSpellingWordLength + 1) {
+                    if (wordToCheck.substr(i+1) == correctSpellingWord.substr(i)){
                         errorStatus = INSERTION;
                         errorCount++;
-                        
-//                        cout << "error status: " << errorStatus << endl;
                         break;
+                        
                     }
                 }
-//                else if (userWordLength == correctSpellingWordLength + 1 && userWord.substr(0,i) == correctSpellingWord.substr(0,i)){
-//                    errorStatus = INSERTION;
-//                    errorCount++;
-//                }
-
-                    errorStatus = SUBSTITUTION;
-                    errorCount++;
-                    
-//                    cout << "error status: " << errorStatus << endl;
                 
-                //Substituition check if userWord length is not the same as correctSpellingWordLength
-//                if (userWord[i + 1] == correctSpellingWord[i + 1]){
-//                    errorStatus = SUBSTITUTION;
-//                    errorCount++;
-//                    
-//                    cout << "error status: " << errorStatus << endl;
-//
-//                }
-                
-//                break;
+                /*
+                If both word lengths are not equal to each other,
+                and the letter does not meet insertion or deletion criteria, it must be substitution
+                */
+                errorStatus = SUBSTITUTION;
+                errorCount++;
+        
             }
         }
     }
     
-        if (errorCount >= 2){
-            errorStatus = ERROR;
-        }
-//    cout << "error count: " << errorCount << endl;
+    //Error Check
+    if (errorCount >= 2){
+        errorStatus = ERROR;
+    }
+    
+    //    cout << "error count: " << errorCount << endl;
     return errorStatus;
 }
 
