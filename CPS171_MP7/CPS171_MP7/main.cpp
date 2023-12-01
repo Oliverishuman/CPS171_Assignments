@@ -5,7 +5,7 @@
  a correct spelling of a specific word, then follows are multiple attempts at spelling that word.
  
  First the program will call a function to split each line into an independent list of strings. Then for each list,
- each word in the list will be sent through checkWordSpelling function. This will return an error status, which
+ each word in the list will be passed through the checkWordSpelling function. This will return an error status, which
  then depicts which message is printed to the console. Lastly, the program will print to the console a count of
  each error status.
  
@@ -35,15 +35,12 @@ list<string> splitString(string sentenceToBeSplit, list<string>& listOfWords, st
         //Sets the correct spelling of the word if empty
         if (correctSpellingWord.empty()){
             correctSpellingWord = word;
-            
         } else {
             //Only inserts words to the list if the correctSpellingWord is set
             listOfWords.insert(listOfWords.end(), word);
-            
         }
     }
     
-    //Returns a list of words from a specific line interpreted from the .txt file
     return listOfWords;
 }
 
@@ -54,20 +51,18 @@ errorStatus checkWordSpelling(string wordToCheck, string correctSpellingWord, er
     long wordToCheckLength = wordToCheck.length();
     long correctSpellingWordLength = correctSpellingWord.length();
     
+    //Sets wordLength to the length of the longest word to iterate through ao no letters are missed
     if (wordToCheckLength < correctSpellingWordLength){
         wordLength = correctSpellingWordLength;
-        
     } else {
         wordLength = wordToCheckLength;
-
     }
     
+    //Correct Check
     if (wordToCheck == correctSpellingWord){
         errorStatus = CORRECT;
-        
     } else if (wordToCheckLength == correctSpellingWordLength){
         for (int j=0; j < wordLength; j++){
-//            cout << "-letter " << wordToCheck[j] << endl;
             
             /*
              Transposition Check
@@ -80,20 +75,16 @@ errorStatus checkWordSpelling(string wordToCheck, string correctSpellingWord, er
                 
                 //Incrememnts the position so the next iteration isn't mistaken by the transposed letter
                 j++;
-                
             }
             //Substitution Check
             else if (wordToCheck[j] != correctSpellingWord[j]){
                 errorStatus = SUBSTITUTION;
                 errorCount++;
-                
             }
         }
         
     } else {
         for (int i = 0; i < wordLength; i++) {
-//            cout << "-letter " << wordToCheck[i] << endl;
-            
             if (wordToCheck[i] != correctSpellingWord[i]) {
                 
                 //Deletion Check
@@ -102,7 +93,6 @@ errorStatus checkWordSpelling(string wordToCheck, string correctSpellingWord, er
                         errorStatus = DELETION;
                         errorCount++;
                         break;
-                        
                     }
                 }
                 
@@ -112,17 +102,16 @@ errorStatus checkWordSpelling(string wordToCheck, string correctSpellingWord, er
                         errorStatus = INSERTION;
                         errorCount++;
                         break;
-                        
                     }
                 }
                 
                 /*
-                If both word lengths are not equal to each other,
-                and the letter does not meet insertion or deletion criteria, it must be substitution
-                */
+                 If both word lengths are not equal to each other,
+                 and the letter does not meet insertion or deletion criteria, it must be substitution
+                 */
                 errorStatus = SUBSTITUTION;
                 errorCount++;
-        
+                
             }
         }
     }
@@ -132,7 +121,6 @@ errorStatus checkWordSpelling(string wordToCheck, string correctSpellingWord, er
         errorStatus = ERROR;
     }
     
-    //    cout << "error count: " << errorCount << endl;
     return errorStatus;
 }
 
@@ -151,18 +139,16 @@ int main(int argc, const char * argv[]) {
     
     inFile.open("mp7spelling_copy.txt");
     
-    //If file is not found, echo error message to console
+    //If file is not found, print error message to console
     if (inFile.fail())
         cout << endl << "File not found!" << endl;
     else{
         cout << "Spelling Correction - MP7 by Oliver McMillen" << endl << endl;
         
-        //While there is a new line with contents, proceed
         while(getline(inFile, str)){
             string correctSpellingWord;
-            errorStatus errorStatus;
             string errorString;
-            
+            errorStatus errorStatus;
             
             /*
              Call splitString function to split each word from sentence into a list.
@@ -171,23 +157,22 @@ int main(int argc, const char * argv[]) {
              */
             splitString(str, listOfWords, correctSpellingWord);
             
-            //Print list of words for each new list created
-            cout << "**** Starting new line ****" << endl;
+            cout << "******** Starting new line ********" << endl;
             cout << "The word being checked is " << correctSpellingWord << endl << endl;
+            
+            //For each word, check error and print correct message
             for (auto word : listOfWords){
                 cout << "User word is " << word << "\n";
                 
-                
                 checkWordSpelling(word, correctSpellingWord, errorStatus);
                 
-                //Validates the error status and prints proper message
                 if (errorStatus == 5){
                     errorString = "is too bad to be a mispelling";
                     errorCount++;
                 } else if (errorStatus == 4){
                     errorString = "has one character inserted";
                     insertCount++;
-                }else if (errorStatus == 3){
+                } else if (errorStatus == 3){
                     errorString = "has one character deleted";
                     deleteCount++;
                 } else if (errorStatus == 2){
@@ -196,7 +181,7 @@ int main(int argc, const char * argv[]) {
                 } else if (errorStatus == 1){
                     errorString = "has one character substituted";
                     subCount++;
-                }else if (errorStatus == 0){
+                } else if (errorStatus == 0){
                     errorString = "is correct";
                     correctCount++;
                 }
