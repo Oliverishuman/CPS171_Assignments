@@ -9,7 +9,9 @@
 #include <fstream>
 #include <list>
 #include <sstream>
+#include <string>
 #include "TeamClass.hpp"
+#include "PlayerClass.hpp"
 
 using namespace std;
 
@@ -22,10 +24,7 @@ list<string> splitString(string sentenceToBeSplit, list<string>& listOfWords)
     listOfWords.clear();
     
     while (splitstream >> word) {
-        //Sets the correct spelling of the word if empty
-            //Only inserts words to the list if the correctSpellingWord is set
             listOfWords.insert(listOfWords.end(), word);
-        
     }
     
     return listOfWords;
@@ -53,8 +52,9 @@ int main(int argc, const char * argv[]) {
             //Detects new line in teams.txt file, which INDICATES NEW TEAM
             if (str == " "){
                 i++;
+                
                 teamName = " ";
-                cout << "******NEW TEAM******" << endl << endl;
+                cout << endl;
             }
             
             //If team name is empty, SET TEAM NAME for the new team to iterate
@@ -66,44 +66,47 @@ int main(int argc, const char * argv[]) {
             
             cout << teamName << endl;
 
+            //Initializes new player class for each line read after the team name
+            PlayerClass player = PlayerClass();
+            
             //SplitString fucntion will SPLIT SENTENCE INTO WORDS so variables can be assigned
             splitString(str, listOfWords);
+            int count = 0;
             for (auto word : listOfWords){
-                cout << "Word is " << word << endl;
+                cout << word << endl;
+                
+                if (count == 0){
+                    int playerNumber = stoi(word);
+                    player.setNumber(playerNumber);
+                } else if (count == 1){
+                    string playerFirstName = word;
+                    player.setFirstName(playerFirstName);
+                } else if (count == 2){
+                    string playerLastName = word;
+                    player.setLastName(playerLastName);
+                } else if (count == 3){
+                    int playerPoints = stoi(word);
+                    player.setPoints(playerPoints);
+                }
+                count++;
             }
-            cout << endl;
-            
-
-            
- 
-
+            arrOfTeams[i].addPlayer(player);
         }
         inFile.close();
     }
+    cout << endl;
+    
+    
+    
     
     //For each team, print the name and their points
-    for (int i=0; i < 4; i++){
-        cout << arrOfTeams[i].getName() << ", their points are: " << arrOfTeams[i].getPoints() << endl;
+    for (int j=0; j < 4; j++){
+        cout << arrOfTeams[j].getName() << ", their points are: " << arrOfTeams[i].getPoints() << endl;
+        cout << arrOfTeams[j].displayPlayers() << endl << endl;
+
 
     }
 
     cout << endl;
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-//        TeamClass team1 = TeamClass();
-//        team1.setName("Smuckles");
-//        team1.setPoints(3507);
-////
-//        cout << "This is the team name: " << team1.getName() << endl;
-//        cout << "This is their points: " << team1.getPoints() << endl;

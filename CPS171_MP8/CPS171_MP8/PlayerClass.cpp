@@ -6,3 +6,35 @@
 //
 
 #include "PlayerClass.hpp"
+
+void PlayerClass::setFirstName(string firstName){
+    playerFirstName = firstName;
+}
+
+string PlayerClass::getFirstName(){
+    return playerFirstName;
+}
+
+void PlayerClass::setLastName(string lastName){
+    playerLastName = lastName;
+}
+
+string PlayerClass::getLastName(){
+    return playerLastName;
+}
+
+void PlayerClass::setPoints(int points){
+    playerPoints = points;
+}
+
+int PlayerClass::getPoints(){
+    return playerPoints;
+}
+
+void PlayerClass::setNumber(int number){
+    playerNumber = number;
+}
+
+int PlayerClass::getNumber(){
+    return playerNumber;
+}

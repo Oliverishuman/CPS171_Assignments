@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4A31A6062B2380D80058A43E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A31A6052B2380D80058A43E /* main.cpp */; };
 		4A31A6152B239E220058A43E /* TeamClass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A31A6132B239E220058A43E /* TeamClass.cpp */; };
+		4A31A6182B23AF860058A43E /* PlayerClass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A31A6162B23AF860058A43E /* PlayerClass.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +29,8 @@
 		4A31A6052B2380D80058A43E /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		4A31A6132B239E220058A43E /* TeamClass.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TeamClass.cpp; sourceTree = "<group>"; };
 		4A31A6142B239E220058A43E /* TeamClass.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TeamClass.hpp; sourceTree = "<group>"; };
+		4A31A6162B23AF860058A43E /* PlayerClass.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerClass.cpp; sourceTree = "<group>"; };
+		4A31A6172B23AF860058A43E /* PlayerClass.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PlayerClass.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +64,8 @@
 			isa = PBXGroup;
 			children = (
 				4A31A6052B2380D80058A43E /* main.cpp */,
+				4A31A6162B23AF860058A43E /* PlayerClass.cpp */,
+				4A31A6172B23AF860058A43E /* PlayerClass.hpp */,
 				4A31A6132B239E220058A43E /* TeamClass.cpp */,
 				4A31A6142B239E220058A43E /* TeamClass.hpp */,
 			);
@@ -124,6 +129,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A31A6182B23AF860058A43E /* PlayerClass.cpp in Sources */,
 				4A31A6062B2380D80058A43E /* main.cpp in Sources */,
 				4A31A6152B239E220058A43E /* TeamClass.cpp in Sources */,
 			);

@@ -7,6 +7,7 @@
 
 #include "TeamClass.hpp"
 
+
 void TeamClass::setName(string name){
     teamName = name;
 }
@@ -21,4 +22,21 @@ void TeamClass::setPoints(int points){
 
 int TeamClass::getPoints(){
     return teamPoints;
+}
+
+void TeamClass::addPlayer(PlayerClass player){
+    if(currentPosition < 11){
+        teamPlayers[currentPosition] = player;
+        currentPosition++;
+    }
+}
+
+
+string TeamClass::displayPlayers(){
+    string players = "";
+    
+    for (int i=0; i < 11; i++){
+        players += teamPlayers[i].getFirstName() + " ";
+    }
+    return players;
 }
