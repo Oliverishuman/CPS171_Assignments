@@ -22,9 +22,9 @@ using namespace std;
 class TeamClass {
     public:
         void setName(string name);
-        void setPoints(int points);
-
         string getName();
+    
+        void setPoints(int points);
         int getPoints();
     private:
         string teamName;
