@@ -31,6 +31,7 @@ int main(int argc, const char * argv[]) {
         
         TeamClass team1 = TeamClass();
         team1.setName("Smuckles");
+        team1.setPoints(3507);
 //
         cout << "This is the team name: " << team1.getName() << endl;
         cout << "This is their points: " << team1.getPoints() << endl;

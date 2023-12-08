@@ -15,6 +15,10 @@ string TeamClass::getName(){
     return teamName;
 }
 
+void TeamClass::setPoints(int points){
+    teamPoints = points;
+}
+
 int TeamClass::getPoints(){
-    return points;
+    return teamPoints;
 }
