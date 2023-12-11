@@ -47,10 +47,28 @@ void TeamClass::displayPlayers(){
     string players = "";
     
     for (int i=0; i < 11; i++){
-//        cout << teamPlayers[i].getNumber() << " " << teamPlayers[i].getFirstName() << " " << endl;
         
-        cout << fixed << right << setw(2) << i+1 << fixed << setw(3) << left << "." << setw(12) << teamPlayers[i].getFirstName()
+        cout << fixed << right << setw(2) << i+1 << fixed << setw(3) << left << "." << setw(11) << teamPlayers[i].getFirstName()
         << setw(18) << teamPlayers[i].getLastName() << setw(17) << teamPlayers[i].getNumber() << setw(21) << teamPlayers[i].getPoints() << endl;
     }
   
+}
+
+PlayerClass TeamClass::getTopPlayerPoints(){
+    int maxPoints=0;
+    string fName;
+    string lName;
+    int currentPoints=0;
+    PlayerClass maxPointsPlayer;
+    
+    for (int i=0; i < 11; i++){
+        currentPoints = teamPlayers[i].getPoints();
+        
+        if (currentPoints >= maxPoints){
+            maxPoints = currentPoints;
+            maxPointsPlayer = teamPlayers[i];
+        }
+        
+    }
+    return maxPointsPlayer;
 }

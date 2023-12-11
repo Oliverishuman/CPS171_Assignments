@@ -30,6 +30,7 @@ class TeamClass {
         void addPlayer(PlayerClass player);
     
         void displayPlayers();
+        PlayerClass getTopPlayerPoints();
     
     private:
         string teamName;

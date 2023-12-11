@@ -73,8 +73,6 @@ int main(int argc, const char * argv[]) {
             splitString(str, listOfWords);
             int count = 0;
             for (auto word : listOfWords){
-//                cout << word << endl;
-                
                 if (count == 0){
                     int playerNumber = stoi(word);
                     player.setNumber(playerNumber);
@@ -94,26 +92,30 @@ int main(int argc, const char * argv[]) {
         }
         inFile.close();
     }
-//    cout << endl;
     
-    
-    
-    
-    //For each team, print the name and their points
+    //For each team, print the name and their points, along with their players information
     for (int j=0; j < 4; j++){
+        TeamClass iteratingTeam = arrOfTeams[j];
         int teamNumber = j+1;
-        string teamName = arrOfTeams[j].getName();
+        string teamName = iteratingTeam.getName();
+        int teamPoints = iteratingTeam.getPoints();
         
         cout << "TEAM #" << teamNumber << endl;
-        cout << "Team name: " << arrOfTeams[j].getName() << endl;
-        cout << "Team points: " << arrOfTeams[j].getPoints() << endl << endl;
+        cout << "Team name: " << teamName << endl;
+        cout << "Team points: " << teamPoints << endl << endl;
         
-        cout << "Players of Team #" << teamNumber << ": " << teamName <<  endl;
-        cout << fixed << right << setw(16) << "Player Name" << setw(26) << "Player Number"
+        cout << "Players of TEAM #" << teamNumber << ": " << teamName <<  endl;
+        cout << fixed << right << setw(12) << "Player Name" << setw(26) << "Player Number"
          << setw(17) << "Player Points" << endl;
+        cout << fixed << right << setw(12) << "***********" << setw(26) << "*************"
+         << setw(17) << "*************" << endl;
         arrOfTeams[j].displayPlayers(); cout << endl;
         
         //Write code here and write rest of funtions to implement in classes
+    }
+    
+    for (int k=0; k < 4; k++){
+        cout << "The player with the most points on Team #" << k+1 << " is " << arrOfTeams[k].getTopPlayerPoints().getFirstName() << " " << arrOfTeams[k].getTopPlayerPoints().getLastName(); cout << endl;
 
     }
 
