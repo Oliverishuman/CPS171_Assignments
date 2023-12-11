@@ -54,7 +54,7 @@ int main(int argc, const char * argv[]) {
                 i++;
                 
                 teamName = " ";
-                cout << endl;
+//                cout << endl;
             }
             
             //If team name is empty, SET TEAM NAME for the new team to iterate
@@ -64,7 +64,7 @@ int main(int argc, const char * argv[]) {
                 continue;
             }
             
-            cout << teamName << endl;
+//            cout << teamName << endl;
 
             //Initializes new player class for each line read after the team name
             PlayerClass player = PlayerClass();
@@ -73,7 +73,7 @@ int main(int argc, const char * argv[]) {
             splitString(str, listOfWords);
             int count = 0;
             for (auto word : listOfWords){
-                cout << word << endl;
+//                cout << word << endl;
                 
                 if (count == 0){
                     int playerNumber = stoi(word);
@@ -94,16 +94,17 @@ int main(int argc, const char * argv[]) {
         }
         inFile.close();
     }
-    cout << endl;
+//    cout << endl;
     
     
     
     
     //For each team, print the name and their points
     for (int j=0; j < 4; j++){
-        cout << arrOfTeams[j].getName() << ", their points are: " << arrOfTeams[i].getPoints() << endl;
-        cout << arrOfTeams[j].displayPlayers() << endl << endl;
-
+        cout << arrOfTeams[j].getName() << endl;
+        cout << arrOfTeams[j].displayPlayers() << endl;
+        
+        //Write code here and write rest of funtions to implement in classes
 
     }
 
