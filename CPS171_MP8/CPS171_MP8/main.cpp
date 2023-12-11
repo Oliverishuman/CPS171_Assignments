@@ -101,8 +101,17 @@ int main(int argc, const char * argv[]) {
     
     //For each team, print the name and their points
     for (int j=0; j < 4; j++){
-        cout << arrOfTeams[j].getName() << endl;
-        cout << arrOfTeams[j].displayPlayers() << endl;
+        int teamNumber = j+1;
+        string teamName = arrOfTeams[j].getName();
+        
+        cout << "TEAM #" << teamNumber << endl;
+        cout << "Team name: " << arrOfTeams[j].getName() << endl;
+        cout << "Team points: " << arrOfTeams[j].getPoints() << endl << endl;
+        
+        cout << "Players of Team #" << teamNumber << ": " << teamName <<  endl;
+        cout << fixed << right << setw(16) << "Player Name" << setw(26) << "Player Number"
+         << setw(17) << "Player Points" << endl;
+        arrOfTeams[j].displayPlayers(); cout << endl;
         
         //Write code here and write rest of funtions to implement in classes
 

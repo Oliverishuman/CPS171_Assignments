@@ -6,7 +6,10 @@
 //
 
 #include "TeamClass.hpp"
-
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <iomanip>
 
 void TeamClass::setName(string name){
     teamName = name;
@@ -21,6 +24,14 @@ void TeamClass::setPoints(int points){
 }
 
 int TeamClass::getPoints(){
+    int playerPoints = 0;
+    teamPoints = 0;
+    
+    for (int i=0; i < 11; i++){
+        playerPoints = teamPlayers[i].getPoints();
+        teamPoints += playerPoints;
+    }
+    
     return teamPoints;
 }
 
@@ -32,11 +43,14 @@ void TeamClass::addPlayer(PlayerClass player){
 }
 
 
-string TeamClass::displayPlayers(){
+void TeamClass::displayPlayers(){
     string players = "";
     
     for (int i=0; i < 11; i++){
-        players += teamPlayers[i].getFirstName() + " ";
+//        cout << teamPlayers[i].getNumber() << " " << teamPlayers[i].getFirstName() << " " << endl;
+        
+        cout << fixed << right << setw(2) << i+1 << fixed << setw(3) << left << "." << setw(12) << teamPlayers[i].getFirstName()
+        << setw(18) << teamPlayers[i].getLastName() << setw(17) << teamPlayers[i].getNumber() << setw(21) << teamPlayers[i].getPoints() << endl;
     }
-    return players;
+  
 }

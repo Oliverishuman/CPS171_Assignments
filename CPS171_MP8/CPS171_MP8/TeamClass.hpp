@@ -29,7 +29,7 @@ class TeamClass {
     
         void addPlayer(PlayerClass player);
     
-        string displayPlayers();
+        void displayPlayers();
     
     private:
         string teamName;
