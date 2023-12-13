@@ -34,10 +34,14 @@ list<string> splitString(string sentenceToBeSplit, list<string>& listOfWords)
 int main(int argc, const char * argv[]) {
     ifstream inFile;
     string str;
-    TeamClass arrOfTeams[4];
-    int i= 0;
     string teamName = " ";
     list<string> listOfWords = {};
+    TeamClass arrOfTeams[4];
+    int i = 0;
+    int FirstMaxPoints = 0;
+    int SecondMaxPoints = 0;
+    TeamClass teamFirstHighestPoints;
+    TeamClass teamSecondHighestPoints;
     
     inFile.open("teams.txt");
     
@@ -54,18 +58,16 @@ int main(int argc, const char * argv[]) {
                 i++;
                 
                 teamName = " ";
-//                cout << endl;
             }
             
             //If team name is empty, SET TEAM NAME for the new team to iterate
             if (teamName == " "){
                 teamName = str;
                 arrOfTeams[i].setName(teamName);
+                arrOfTeams[i].setNumber(i);
                 continue;
             }
             
-//            cout << teamName << endl;
-
             //Initializes new player class for each line read after the team name
             PlayerClass player = PlayerClass();
             
@@ -109,15 +111,29 @@ int main(int argc, const char * argv[]) {
          << setw(17) << "Player Points" << endl;
         cout << fixed << right << setw(12) << "***********" << setw(26) << "*************"
          << setw(17) << "*************" << endl;
-        arrOfTeams[j].displayPlayers(); cout << endl;
+        arrOfTeams[j].displayPlayers(); cout << endl << endl;
         
-        //Write code here and write rest of funtions to implement in classes
     }
     
+    //For each team, print the player name with the most points
     for (int k=0; k < 4; k++){
-        cout << "The player with the most points on Team #" << k+1 << " is " << arrOfTeams[k].getTopPlayerPoints().getFirstName() << " " << arrOfTeams[k].getTopPlayerPoints().getLastName(); cout << endl;
-
+        cout << "The player with the most points on Team #" << k+1 << " is " << arrOfTeams[k].getTopPlayerPoints().getFirstName() 
+        << " " << arrOfTeams[k].getTopPlayerPoints().getLastName(); cout << endl;
     }
+        cout << endl;
+        
+        cout << "The top two teams with the most points are:" << endl;
+        for (int n=0; n < 4; n++){
+            if (FirstMaxPoints < arrOfTeams[n].getPoints()){
+                SecondMaxPoints = FirstMaxPoints;
+                teamSecondHighestPoints = arrOfTeams[n-1];
+                
+                FirstMaxPoints = arrOfTeams[n].getPoints();
+                teamFirstHighestPoints = arrOfTeams[n];
+            }
+
+        }
+        cout << "Team #" <<  teamFirstHighestPoints.getNumber() << " with points " << teamFirstHighestPoints.getPoints() << " and Team #" << teamSecondHighestPoints.getNumber() << " with points " << teamSecondHighestPoints.getPoints() << endl;
 
     cout << endl;
     return 0;

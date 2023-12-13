@@ -19,6 +19,14 @@ string TeamClass::getName(){
     return teamName;
 }
 
+void TeamClass::setNumber(int teamnumber){
+    teamNumber = teamnumber;
+}
+
+int TeamClass::getNumber(){
+    return teamNumber + 1;
+}
+
 void TeamClass::setPoints(int points){
     teamPoints = points;
 }
@@ -36,9 +44,9 @@ int TeamClass::getPoints(){
 }
 
 void TeamClass::addPlayer(PlayerClass player){
-    if(currentPosition < 11){
-        teamPlayers[currentPosition] = player;
-        currentPosition++;
+    if(currentPlayerPosition < 11){
+        teamPlayers[currentPlayerPosition] = player;
+        currentPlayerPosition++;
     }
 }
 
@@ -51,7 +59,6 @@ void TeamClass::displayPlayers(){
         cout << fixed << right << setw(2) << i+1 << fixed << setw(3) << left << "." << setw(11) << teamPlayers[i].getFirstName()
         << setw(18) << teamPlayers[i].getLastName() << setw(17) << teamPlayers[i].getNumber() << setw(21) << teamPlayers[i].getPoints() << endl;
     }
-  
 }
 
 PlayerClass TeamClass::getTopPlayerPoints(){

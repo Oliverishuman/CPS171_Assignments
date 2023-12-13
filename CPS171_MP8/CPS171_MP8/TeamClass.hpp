@@ -27,6 +27,9 @@ class TeamClass {
         void setPoints(int points);
         int getPoints();
     
+        void setNumber(int teamnumber);
+        int getNumber();
+    
         void addPlayer(PlayerClass player);
     
         void displayPlayers();
@@ -34,8 +37,9 @@ class TeamClass {
     
     private:
         string teamName;
+        int teamNumber;
         int teamPoints = 0;
         PlayerClass teamPlayers[11];
-        int currentPosition = 0;
+        int currentPlayerPosition = 0;
 
 };
