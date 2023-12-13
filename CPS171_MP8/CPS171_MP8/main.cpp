@@ -1,9 +1,15 @@
-//
-//  main.cpp
-//  CPS171_MP8
-//
-//  Created by Oliver McMillen on 12/8/23.
-//
+/*
+  main.cpp
+  CPS171_MP8
+ 
+ This program is to read in text from a file named teams.txt. This file contains 4 soccer teams, each with 11 players listed below.
+ Each team will be stored in an array, and each player will be stored into an array located inside the respective team. 
+ For each team, the program will list out the team name, team points, and the information for each player belonging
+ to that team. The program will then output the players with the most points on each team. Lastly, it
+ will display the 2 teams with the most points.
+
+  Created by Oliver McMillen on 12/8/23.
+*/
 
 #include <iostream>
 #include <fstream>
@@ -37,11 +43,12 @@ int main(int argc, const char * argv[]) {
     string teamName = " ";
     list<string> listOfWords = {};
     TeamClass arrOfTeams[4];
+    TeamClass teamFirstHighestPoints;
+    TeamClass teamSecondHighestPoints;
     int i = 0;
     int FirstMaxPoints = 0;
     int SecondMaxPoints = 0;
-    TeamClass teamFirstHighestPoints;
-    TeamClass teamSecondHighestPoints;
+
     
     inFile.open("teams.txt");
     
@@ -56,7 +63,6 @@ int main(int argc, const char * argv[]) {
             //Detects new line in teams.txt file, which INDICATES NEW TEAM
             if (str == " "){
                 i++;
-                
                 teamName = " ";
             }
             
@@ -124,15 +130,18 @@ int main(int argc, const char * argv[]) {
         
         cout << "The top two teams with the most points are:" << endl;
         for (int n=0; n < 4; n++){
+            /* If first max points is less than current number, set to current number
+             and set second max points to the previous first max points value */
             if (FirstMaxPoints < arrOfTeams[n].getPoints()){
                 SecondMaxPoints = FirstMaxPoints;
-                teamSecondHighestPoints = arrOfTeams[n-1];
+                teamSecondHighestPoints = teamFirstHighestPoints;
                 
                 FirstMaxPoints = arrOfTeams[n].getPoints();
                 teamFirstHighestPoints = arrOfTeams[n];
             }
 
         }
+    //Print the sentence displaying the two teams with the most points
         cout << "Team #" <<  teamFirstHighestPoints.getNumber() << " with points " << teamFirstHighestPoints.getPoints() << " and Team #" << teamSecondHighestPoints.getNumber() << " with points " << teamSecondHighestPoints.getPoints() << endl;
 
     cout << endl;
